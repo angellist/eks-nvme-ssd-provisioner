@@ -46,7 +46,7 @@ case $SSD_NVME_DEVICE_COUNT in
   ;;
 esac
 
-UUID=$(blkid -s UUID -o value $DEVICE)
+UUID=$(blkid -s UUID -o value $DEVICE | egrep '[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{8}' -o)
 mkdir -p /pv-disks/$UUID
 mount -o defaults,noatime,discard,nobarrier --uuid $UUID /pv-disks/$UUID
 ln -s /pv-disks/$UUID /nvme/disk

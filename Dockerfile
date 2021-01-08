@@ -1,6 +1,6 @@
-FROM debian:stretch-slim
+FROM alpine:3.12
 
-RUN  apt-get update && apt-get -y install nvme-cli mdadm && apt-get -y clean && apt-get -y autoremove
+RUN apk add --update-cache mdadm nvme-cli bash e2fsprogs
 COPY eks-nvme-ssd-provisioner.sh /usr/local/bin/
 
 ENTRYPOINT ["eks-nvme-ssd-provisioner.sh"]
