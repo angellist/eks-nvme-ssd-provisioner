@@ -14,10 +14,10 @@ STRIPE_WIDTH=$(expr $SSD_NVME_DEVICE_COUNT \* $STRIDE || true)
 
 
 # Checking if provisioning already happend
-if [[ "$(ls -A /pv-disks)" ]]
+if [[ "$(ls -A /var/lib/pv-disks)" ]]
 then
-  echo 'Volumes already present in "/pv-disks"'
-  echo -e "\n$(ls -Al /pv-disks | tail -n +2)\n"
+  echo 'Volumes already present in "/var/lib/pv-disks"'
+  echo -e "\n$(ls -Al /var/lib/pv-disks | tail -n +2)\n"
   echo "I assume that provisioning already happend, doing nothing!"
   sleep infinity
 fi
@@ -47,10 +47,10 @@ case $SSD_NVME_DEVICE_COUNT in
 esac
 
 UUID=$(blkid -s UUID -o value $DEVICE | egrep '[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{8}' -o)
-mkdir -p /pv-disks/$UUID
-mount -o defaults,noatime,discard,nobarrier $DEVICE /pv-disks/$UUID
-ln -s /pv-disks/$UUID /nvme/disk
-echo "Device $DEVICE has been mounted to /pv-disks/$UUID"
+mkdir -p /var/lib/pv-disks/$UUID
+mount -o defaults,noatime,discard,nobarrier $DEVICE /var/lib/pv-disks/$UUID
+ln -s /var/lib/pv-disks/$UUID /var/lib/nvme/disk
+echo "Device $DEVICE has been mounted to /var/lib/pv-disks/$UUID"
 echo "NVMe SSD provisioning is done and I will go to sleep now"
 
 sleep infinity
