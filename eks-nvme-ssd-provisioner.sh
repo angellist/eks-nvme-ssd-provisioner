@@ -50,7 +50,7 @@ UUID=$(blkid -s UUID -o value $DEVICE | egrep '[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9
 mkdir -p /var/lib/pv-disks/$UUID
 mount -t ext4 -o defaults,noatime,discard,nobarrier $DEVICE /var/lib/pv-disks/$UUID
 rm -rf /var/lib/nvme/disk || true
-ln -s /var/lib/pv-disks/$UUID /var/lib/nvme/disk
+ln -s /var/lib/pv-disks/$UUID/ /var/lib/nvme/disk
 echo "Device $DEVICE has been mounted to /var/lib/pv-disks/$UUID"
 echo "NVMe SSD provisioning is done and I will go to sleep now"
 
